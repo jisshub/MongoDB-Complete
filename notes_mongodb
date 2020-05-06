@@ -1,0 +1,129 @@
+> show dbs
+
+> use flights
+
+> db.flightsData.insertOne({  {
+    "departureAirport": "MUC",
+    "arrivalAirport": "SFO",
+    "aircraft": "Airbus A380", 
+    "distance": 12000,
+    "intercontinental": true
+  }})
+  
+  
+  here v insert a single document.
+  
+> 
+
+updateOne()
+----------------
+updating sinlg e document
+
+syntax:
+
+db.collection.updateOne({filter}, {data})
+
+> db.flightsData.updateOne({_id: ObjectId("5eb21a2ece9092b80ab236e3")}, {aircraft: "Aribus 7860"})
+
+2020-05-06T07:31:27.949+0530 E QUERY    [thread1] Error: the update operation document must contain atomic operators :
+DBCollection.prototype.updateOne@src/mongo/shell/crud_api.js:542:1
+@(shell):1:1
+
+
+use '$set' in this case - pass the data to be updated as its value.
+
+db.flightsData.updateOne({_id: ObjectId("5eb21a2ece9092b80ab236e3")},{ $set:{aircraft: "Aribus 7860"}})
+
+
+updating/setting multiple fields in a document with an id
+-------------------------------------
+
+> db.flightsData.updateOne({_id: "air223"}, {$set: {arrivalAirport: "fadasd", distance: 9000}})
+
+updateMany()
+------------------
+
+updating multiple documents
+
+> db.flightsData.updateMany({}, {$set:{date: "10-10-2020"}});
+
+here v update/set all documents with data field.
+{} - all docs
+
+if documents have date field then update it/set date field if absent.
+
+>  db.flightsData.updateMany({arrivalAirport: "SFO"}, {$set:{distance: 45000}})
+
+here v update/set all dcouments having arrivalAirport as SFO with distance as 45000.
+{arrivalAirport: "SFO"} - filter
+{distance: 45000} - data to b updated
+
+
+deleteOne()
+---------------
+
+db.collection.deleteOne({filetr})
+
+-- deletes a single document thats matches the fileter .
+
+eg:
+ db.flightsData.deleteOne({ "_id" : ObjectId("5eb21f12ce9092b80ab236e4") })
+
+
+
+deleteMany()
+--------------
+
+delete many documents that matches the filter.
+
+> db.flightsData.deleteMany({arrivalAirport: "RTS"})
+
+> db.covidDoc.deleteMany({})
+  -- delete all dcouments
+{}- all documents 
+
+
+insertMany()
+------------------
+db.collection.insertMany([
+  {..},
+  {..}
+])
+
+accepts an array of documents.
+
+Error:
+db.booksData.insertMany({bookName: "Book Four", bookAuthor: "Author Four", isbn: 12321})
+
+reason: only accpets array.
+
+find()
+-------
+returns all documents that matches filter
+
+> db.flightsData.find({intercontinental: true}).pretty()
+
+-- use reserved operators here, $gt, $lt
+$gt -greater than 
+$lt - lesser than
+
+> db.flightsData.find({distance: {$gt: 10000}}).pretty()
+
+returns all documents woith distance > 10000.
+
+> db.flightsData.find({distance: {$lt: 10000}}).pretty()
+
+retursn all documents with distance<10000
+
+findOne
+-------------------
+> db.flightsData.findOne()
+  -- returns first document
+
+>  db.flightsData.findOne({distance: {$gt: 10000}})
+
+  -- returns first document that matches given filter
+
+  note: cant use pretty()
+
+

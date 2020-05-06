@@ -1,0 +1,81 @@
+
+db.flightsData.insertOne(
+{"departureAirport" : "SDAS", 
+		"arrivalAirport" : "RTS", 
+		"aircraft" : "Airbus A180", 
+		"distance" : 40000, 
+		"intercontinental" : true}
+)
+
+
+
+[
+	// Document 1
+	{
+	  "departureAirport": "MUC",
+	  "arrivalAirport": "SFO",
+	  "aircraft": "Airbus A380", 
+	  "distance": 12000,
+	  "intercontinental": true
+	},
+	
+	// Document 2
+	{
+	  "departureAirport": "LHR",
+	  "arrivalAirport": "TXL",
+	  "aircraft": "Airbus A320",  
+	  "distance": 950,
+	  "intercontinental": false
+	}
+  ]
+
+
+
+
+[
+		{
+	  "departureAirport": "MUC",
+	  "arrivalAirport": "SFO",
+	  "aircraft": "Airbus A380", 
+	  "distance": 12000,
+	  "intercontinental": true
+	},
+	{
+	  "departureAirport": "Chennai",
+	  "arrivalAirport": "Kochi",
+	  "aircraft": "Bristish Airways",  
+	  "distance": 1950,
+	  "intercontinental": false
+	}
+  ]
+
+
+  [
+	  {
+		  "bookName": "Book One",
+		  "bookAuthor": "Author One",
+		  "isbn": 24234
+	  },
+
+	  {
+		"bookName": "Book Two",
+		"bookAuthor": "Author Two",
+		"isbn": 4862
+	  },
+
+	  {
+		"bookName": "Book Three",
+		"bookAuthor": "Author Three",
+		"isbn": 9382
+	}
+  ]
+
+  db.flightsData.replaceOne({
+	  "_id": "ObjectId("5eb2130ace9092b80ab236e1")},
+	  {
+		"departureAirport": "Chennai",
+		"arrivalAirport": "Kochi",
+		"aircraft": "Bristish Airways",  
+		"distance": 1950,
+		"intercontinental": false
+	  })

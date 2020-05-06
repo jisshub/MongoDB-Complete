@@ -1,0 +1,13 @@
+start mongodb--
+
+> sudo systemctl start mongodb
+> sudo systemctl stop mongodb
+	or
+> sudo systemctl restart mongodb
+
+
+check mongodb service status
+> sudo systemctl status mongodb
+ 
+
+
