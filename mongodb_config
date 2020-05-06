@@ -10,4 +10,19 @@ check mongodb service status
 > sudo systemctl status mongodb
  
 
+mongodb install on windows 10
+--------------------------
+
+follow the link
+
+https://medium.com/@LondonAppBrewery/how-to-download-install-mongodb-on-windows-4ee4b3493514
+
+
+For those who are on windows and want to add mongo alias:
+Search for environment variables in windows search and go to path and add a new path `C:\Program Files\MongoDB\Server\4.0\bin`
+Now restart terminal
+
+run,
+> mongo
+
 
