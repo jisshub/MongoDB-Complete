@@ -90,7 +90,7 @@ db.collection.insertMany([
   {..}
 ])
 
-accepts an array of documents.
+note: only accepts an array of documents.
 
 Error:
 db.booksData.insertMany({bookName: "Book Four", bookAuthor: "Author Four", isbn: 12321})
@@ -126,4 +126,164 @@ findOne
 
   note: cant use pretty()
 
+
+find() - cursor - forEach() - toArray()
+-------------------
+find() - gives a cursor object - not an array ofdocuments/ array of object
+
+thus we dont get all documents using find().
+
+to acess all documents 
+use toArray()
+
+syntax: 
+  db.collection.find().toArray()
+    - converts cursor object to an array
+
+  -forEach()
+  db.collection.find().forEach((document)=>{
+    printjson(document)
+  })
+
+  iterate thru each document and prints it using printjson()
+
+  so use toArray() / forEach() if all dcouments
+  needed.
+
+find() - cursor object
+
+  db.passengers.find({"_id" : ObjectId("5eb36ed637bed0901fbba646")}).age
+
+    -- not possible since find() returns a cursor object
+
+findOne() - a document
+  db.passengers.findOne({"_id" : ObjectId("5eb36ed637bed0901fbba646")}).age
+    -- possible sincle findOne gives a document
+
+
+using projection
+-----------------
+to project a key:value pair from the collection.
+
+eg:
+  {
+	"_id" : ObjectId("5eb36ed637bed0901fbba647"),
+	"name" : "Melanie Palace",
+	"age" : 27
+}
+
+but our application needs 'name' from this document
+
+to project the 'name',
+
+> db.collection.find({"_id" : ObjectId("5eb36ed637bed0901fbba647"), {name: 1, _id: 0}})
+
+note: set '_id': 0 else it will projected by default.
+
+-- to access name from all documents
+
+> db.collection.find({}, {name: 1, _id: 0})
+
+projection doesnt removes any data from db it
+just projects the data v need in our app.
+
+
+Embedded document
+-----------------
+document inside another - also called
+nested document.
+
+Eg:
+
+{
+	"_id" : ObjectId("5eaae8f31caeb15829414dea"),
+	"departureAirport" : "MUC",
+	"arrivalAirport" : "SFO",
+	"aircraft" : "Airbus A380",
+	"distance" : 45000,
+	"intercontinental" : true,
+	"date" : "10-10-2020",
+	"status" : {
+		"description" : "on-time",
+		"lastUpdated" : "2 hr ago"
+	}
+}
+
+here 'status' is Embedded/nested document.
+
+
+Eg: 2
+
+{
+	"_id" : ObjectId("5eb228a3ce9092b80ab236ec"),
+	"departureAirport" : "LHR",
+	"arrivalAirport" : "TXL",
+	"aircraft" : "Airbus A320",
+	"distance" : 950,
+	"intercontinental" : false,
+	"status" : {
+		"description" : "on-time",
+		"lastUpdated" : "2 hr ago"
+	},
+	"sample" : {
+		"dataOne" : "answer One",
+		"dataTwo" : {
+			"newData" : "new Data One",
+			"secData" : "sec Data One"
+		},
+		"dataThree" : "answer Three"
+	}
+}
+
+
+here "sample" is an Embedded document
+     "dataTwo" - Embedded document in another Embedded document.
+
+
+
+working with Arrays
+-----------------
+
+Arrays in a document
+Arrays can be of any type -numbers-, string, documents, embedded dcouments ...
+
+
+Eg:
+
+  {
+	"_id" : ObjectId("5eb383f637bed0901fbba671"),
+	"name" : "Melanie Palace",
+	"age" : 27,
+	"hobbies" : [
+		"cooking",
+		"painting",
+		"football"
+	]
+}
+
+here 'hobbies' is an array of string.
+
+
+Eg: 
+
+> db.booksData.findOne({"isbn": 979})
+{
+	"_id" : ObjectId("5eb22935ce9092b80ab236ef"),
+	"bookName" : "Book Nine",
+	"bookAuthor" : "Author Seven",
+	"isbn" : 979,
+	"sectionsPages" : [
+		{
+			"title" : "TitleOne",
+			"pageNo" : 10
+		},
+		{
+			"title" : "TitleTwo",
+			"pageNo" : 23
+		}
+	]
+}
+
+
+here sectionsPages is an array of documents.
 
