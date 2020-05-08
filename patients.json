@@ -1,0 +1,65 @@
+[
+    {
+        "firstName": "max",
+        "lastName": "Shwrazmuller",
+        "age": 34,
+        "history":[
+            {
+                "disease": "cold", "treatmentCode": 456
+            },
+            {
+                "disease": "malaria", "treatmentCode": 545
+            }
+        ]
+    },
+    {
+        "firstName": "brad",
+        "lastName": "traversy",
+        "age": 24,
+        "history":[
+            {
+                "disease": "sars-cov2", "treatmentCode": 666
+            }
+        ]
+    },
+    {
+        "firstName": "colt",
+        "lastName": "steele",
+        "age": 45,
+        "history":[
+            {
+                "disease": "small pox", "treatmentCode": 777
+            },
+            {
+                "disease": "cold", "treatmentCode": 456
+            }
+        ]
+    },
+    {
+        "firstName": "jonas",
+        "lastName": "steelman",
+        "age": 21,
+        "history":[
+            {
+                "disease": "chikun gunia", "treatmentCode": 341
+            },
+            {
+                "disease": "small pox", "treatmentCode": 777
+            }
+        ]
+
+    }
+]
+
+
+{
+    "firstName": "irfaan",
+    "lastName": "akthar",
+    "age": 66,
+    "history":[
+        {
+            "disease": "cold", "treatmentCode": 341
+        }
+    ]
+
+}

@@ -1,0 +1,16 @@
+drop database
+--------------
+
+- Swicth to database to b dropped
+
+> use databaseName
+
+then execute,
+
+> db.dropDatabase()
+
+drop collections
+--------------
+> db.collection.drop()
+
+

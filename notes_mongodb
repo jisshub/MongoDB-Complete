@@ -83,6 +83,16 @@ delete many documents that matches the filter.
 {}- all documents 
 
 
+-- delete all documents with an array element.
+> db.collection.deleteMany({"array.key": "value"})
+
+Eg: 
+
+-- delete all patients with treatmentCode 666
+
+> db.patientsData.deleteMany({"history.treatmentCode": 666})
+
+
 insertMany()
 ------------------
 db.collection.insertMany([
@@ -160,6 +170,29 @@ findOne() - a document
   db.passengers.findOne({"_id" : ObjectId("5eb36ed637bed0901fbba646")}).age
     -- possible sincle findOne gives a document
 
+
+
+distint()
+----------
+get distinct value from document
+- avoid repeated values
+
+synatx: 
+db.collection.distinct("string")
+
+eg:
+> db.deptData.distinct("dept")
+
+get distinct department from the deptData
+collection.
+
+Eg:
+
+> db.deptData.distinct("item.color")
+
+- get distinct color from item object in deptData collection
+
+reference: department.json file
 
 using projection
 -----------------
@@ -286,4 +319,130 @@ Eg:
 
 
 here sectionsPages is an array of documents.
+
+Accessing data structures
+-------------------------
+
+Eg:
+
+{
+	"_id" : ObjectId("5eb4b920c6466ffd7237cd9f"),
+	"name" : "ajith",
+	"empId" : 42423,
+	"hireDate" : "11-10-2011",
+	"skills_experience" : [
+		{
+			"python" : 6
+		},
+		"javascript",
+		"angular"
+	],
+	"previousWork" : {
+		"innovative" : "back end developer",
+		"naico" : "senior End Developer"
+	}
+}
+
+
+-- to acess the previousWork embedded document,
+
+use findOne() since it gives a document not cursor object
+
+> db.collection.findOne({"_id":ObjectId("5eb4b920c6466ffd7237cd9f")}).previousWork
+
+
+> db.flightsData.find({"status.description": "on-time"}).pretty()
+
+here v get all documents where status.description is 
+on-time.
+
+
+Eg 2:
+--------
+get employee who worked as back end developer in innovative.
+
+> db.employeeData.find({"previousWork.innovative": "back end developer"}).pretty()
+
+here v get all documents where previousWork.innovative is back end developer.
+
+
+Eg 3:
+
+{
+
+	"_id" : ObjectId("5eb228a3ce9092b80ab236ec"),
+	"departureAirport" : "LHR",
+	"arrivalAirport" : "TXL",
+	"aircraft" : "Airbus A320",
+	"distance" : 950,
+	"intercontinental" : false,
+	"status" : {
+		"description" : "on-time",
+		"lastUpdated" : "2 hr ago"
+	},
+	"sample" : {
+		"dataOne" : "answer One",
+		"dataTwo" : {
+			"newData" : "new Data One",
+			"secData" : "sec Data One"
+		},
+		"dataThree" : "answer Three"
+	}
+}
+
+
+> db.flightsData.find({"sample.dataTwo.newData": "new Data One"})
+
+
+here v drill deep into embedded documents.
+
+> db.booksData.updateOne({ "_id" : ObjectId("5eb22935ce9092b80ab236ef"
+)}, {$set: {"sectionPages.pageNo": 88}})
+
+here v update a document by setting sectionsPages.pageNo to 88.
+
+
+
+
+CRUD TASKS
+----------
+1. INSERT 3 PATIENT documents
+
+db.patientsData.insertMany([
+
+	{..},
+	{..}
+])
+
+
+2. UPDATE A PATIENTS DATA
+
+> db.patientsData.updateOne({"_id": ObjectId("5eb4c61e436048de4d4c3f6b
+")}, {$set: {"firstName": "stephan", "lastName": "mischook", "age": 27
+, "history": [{"disease": "sars-cov1", "treatmentCode": 645}]}})
+
+
+3. FIND ALL PATIENTS WITH AGE > 30
+
+> db.patientsData.find({age: {$gt: 30}}).pretty()
+
+4. delete all PATIENT with cold disease
+
+> db.patientsData.deleteMany({"history.disease":"cold"})
+
+it will delete all dcouments with disease cold
+note: as you , can notice in patients.json file
+history is an array, but still we can access the embedded objects in  it by using dot notation.
+
+
+5 .delte all patients with treatmentCode 666
+
+> db.patientsData.deleteMany({"history.treatmentCode": 666})
+
+
+-- delete all documents with an array element.
+> db.collection.deleteMany({"array.key": "value"})
+
+
+
 
