@@ -1,0 +1,26 @@
+[
+    {
+        "teamName": "Real Madrid",
+        "squadSize": 25,
+        "league": "laliga",
+        "tournaments": ["laliga", "champions-league", "europa-league"]
+    },
+    {
+        "teamName": "Barcelona",
+        "squadSize": 25,
+        "league": "laliga",
+        "tournaments": ["laliga", "champions-league", "europa-league"]
+    },
+    {
+        "teamName": "Chelsea",
+        "squadSize": 23,
+        "league": "emglish premier league",
+        "tournaments": ["epl", "europa-league"]
+    },
+    {
+        "teamName": "AC Milan",
+        "squadSize": 25,
+        "league": "seria A",
+        "tournaments": ["seriae A", "champions-league", "europa-league"]
+    }
+]
