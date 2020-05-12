@@ -111,7 +111,147 @@ instead of person collection.
 this is one to one Relations sing reference.
 
 
+One to Many Relation - embedded
+-------------------------------
 
+one question has many answeres - one answer belongs to one question.
+
+> db.questions.findOne()
+{
+    "_id" : ObjectId("5eba0d45d1374e5a63d9814d"),
+    "creator" : "Max",
+    "question" : "How it Works?",
+    "answers" : [
+            {
+                    "text" : "answerOne"
+            },
+            {
+                    "text" : "answerTwo"
+            }
+    ]
+}
+
+so here there is one question that has many answers - which is a list of documents.
+
+now we can fetcg the answers from questions collection,
+
+> db.questions.findOne().answers
+[ { "text" : "answerOne" }, { "text" : "answerTwo" } ]
+> const a = db.questions.findOne().answers
+> a
+[ { "text" : "answerOne" }, { "text" : "answerTwo" } ]
+> a.forEach(r => printjson(r))
+{ "text" : "answerOne" }
+{ "text" : "answerTwo" }
+> a.forEach(r => printjson(r.text))
+"answerOne"
+"answerTwo"
+
+
+
+one to many using references
+-----------------------------
+
+one city has many citzens - one citizen belongs to one city
+
+> db.cities.findOne()
+{
+        "_id" : ObjectId("5eba1694d1374e5a63d9814f"),
+        "name" : "kochi",
+        "citizens" : [
+                {
+                        "id" : "citizen-1",
+                        "name" : "jissmon"
+                },
+                {
+                        "id" : "citizen-2",
+                        "name" : "akash"
+                }
+        ]
+}
+
+here v have to insert large no of citizens in 'citizens' embedded document.
+instead v create another collection for 'citizens' that contains citizens data only
+and set a reference to 'cities' collection ObjectId of each city.
+
+cities collection
+-------------
+> db.cities.findOne()
+{
+        "_id" : ObjectId("5eba183ed1374e5a63d98150"),
+        "name" : "kochi",
+        "cordinates" : {
+                "lat" : 45,
+                "lon" : 46
+        }
+}
+
+citizens collection
+-----------------------
+> db.citizens.find().pretty()
+{
+        "_id" : ObjectId("5eba1954d1374e5a63d98151"),
+        "name" : "jissmon",
+        "city" : ObjectId("5eba183ed1374e5a63d98150")
+}
+{
+        "_id" : ObjectId("5eba1954d1374e5a63d98152"),
+        "name" : "akhil",
+        "city" : ObjectId("5eba183ed1374e5a63d98150")
+}
+{
+        "_id" : ObjectId("5eba1954d1374e5a63d98153"),
+        "name" : "akash",
+        "city" : ObjectId("5eba183ed1374e5a63d98150")
+}
+
+
+here v set a reference to  cities collection by adding a city field with value as objectId of city.
+so by setting this reference, v can later access city of each citizen.
+
+
+Example
+--------
+> const cityId = db.citizens.findOne().city
+> db.cities.findOne({_id: cityId})
+{
+        "_id" : ObjectId("5eba183ed1374e5a63d98150"),
+        "name" : "kochi",
+        "cordinates" : {
+                "lat" : 45,
+                "lon" : 46
+        }
+}
+> db.cities.findOne({_id: cityId}).name
+kochi
+
+
+
+Many to Many - embedded
+-----------------------------
+
+one customer buys many porducts - one product belong to many customers
+
+> db.products.insertOne({name: 'product 1', price: 343})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("5eba1fc5d1374e5a63d98154")
+}
+> db.customers.insertOne({name: 'max', age: 33})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("5eba1fd7d1374e5a63d98155")
+}
+
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("5eba207774852e4dc837c765")
+}
+
+here this is a sql approach.
+in mongodb, we can do this using just two collections,
+
+Eg,
 
 
 
