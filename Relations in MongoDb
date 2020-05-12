@@ -1,5 +1,5 @@
 
-One to One Relations - Using embedded
+One to One Relations - Using embedded document
 -----------------------
 Eg; 
 
@@ -51,5 +51,67 @@ Now we can easily diseaseSummary,
 
 > db.patients.findOne({"_id": ObjectId("5eb8ce3c0b8a3c65144d4678")}).diseaseSummaary.disease
 [ "cold", "fever" ]
+
+
+One to One Using reference
+-----------------------------
+
+a person has one car.
+a car belongs to one person.
+
+
+Eg:
+    > db.persons.findOne()
+{
+        "_id" : ObjectId("5eb9ffbf57e4f06452dfac68"),
+        "name" : "Max",
+        "age" : 33,
+        "cars" : {
+                "model" : "BMW",
+                "price" : 450000
+        }
+}
+
+here it is ok. butout application needs to get only car 
+details.
+> db.persons.findOne().cars.model
+BMW
+> db.persons.findOne().cars.price
+450000
+
+so here v got it, but we access it from persons collection,
+so it is unneccessary to get person collection andthen access 
+car data.
+
+instead v create a collection for persons and for cars.
+and set reference for one to other using ObjectId.
+
+
+Eg:
+
+> db.persons.findOne()
+{ "_id" : ObjectId("5eba014757e4f06452dfac69"), "name" : "max", "age" : 33 }
+
+> db.cars.findOne()
+{
+        "_id" : ObjectId("5eba017e57e4f06452dfac6a"),
+        "model" : "bmw",
+        "price" : 42332,
+        "engine" : "petrol",
+        "owner" : ObjectId("5eba014757e4f06452dfac69")
+}
+
+
+here v set reference on cars collection by setting owner field 
+with ObjectId of one person.
+
+now to get cars information, can direclty access cars collection
+instead of person collection.
+
+this is one to one Relations sing reference.
+
+
+
+
 
 
