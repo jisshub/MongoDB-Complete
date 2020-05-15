@@ -1,0 +1,31 @@
+[
+    {
+        "name": "product-2",
+        "price": 500
+    },
+    {
+        "name": "product-3",
+        "price": 100
+    },
+    {
+        "name": "product-4",
+        "price": 50
+    }
+]
+
+
+[
+    {
+        "customerName": "Akhil",
+        "customerPhone": 4932749,
+        "products": [{ 
+            "Id": ObjectId("5ebdf5217ef5b96a0e64652a"),
+            "quantity": 4}],
+    {
+        "customerName": "Jithin",
+        "customerPhone": 48236484,
+        "products": [{ 
+            "Id": ObjectId("5ebdf5217ef5b96a0e64652a"),
+            "quantity": 4}]
+    }
+]

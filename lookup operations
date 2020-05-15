@@ -1,0 +1,54 @@
+$lookup
+-----------
+to fetch 2 related collection and merge them 
+together in one of the collection as new array of documents.
+
+
+this mitigates the dowaback of splitting data in 
+mutliple collection.
+
+
+Eg:
+
+switched to db books
+> db.authorCol.aggregate([{$lookup: {from: "booksCol", localField: "books", foreignField: "_id", as: "fullBookDetails"}}])
+
+
+> from: collection to merge with    authorCol, here it is booksCol
+
+> localField: field in authorCols that have reference to booksCol.
+
+> foreignField: field in booksCol that establish a relation with authorCols.
+
+> as: key for merged data.
+
+result
+---------
+> db.authorCol.aggregate([{$lookup: {from: "booksCol", localField: "books", foreignField: "_id", as: "fullBookDetails"}}] ).pretty()
+{
+        "_id" : ObjectId("5ebe05fa7ef5b96a0e646531"),
+        "authorName" : "Author One",
+        "books" : [
+                ObjectId("5ebe056d7ef5b96a0e64652f"),
+                ObjectId("5ebe056d7ef5b96a0e646530")
+        ],
+        "fullBookDetails" : [
+                {
+                        "_id" : ObjectId("5ebe056d7ef5b96a0e64652f"),
+                        "bookName" : "Book One",
+                        "price" : 33
+                },
+                {
+                        "_id" : ObjectId("5ebe056d7ef5b96a0e646530"),
+                        "bookName" : "Book Two",
+                        "price" : 70
+                }
+        ]
+}
+
+so  here v aggregate the booksCol in to authorCol as new array of documents called "fullBookDetails".
+
+
+
+
+

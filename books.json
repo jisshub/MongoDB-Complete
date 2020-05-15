@@ -1,0 +1,30 @@
+[
+    {
+        "bookName": "Book One",
+        "price": 33
+    },
+    {
+        "bookName": "Book Two",
+        "price": 70
+    }
+]
+
+
+
+[
+    {
+        "authorName": "Author One",
+        "books": [
+            {
+                "bookId": ObjectId("5ebe056d7ef5b96a0e64652f"),
+                "copies": 10,
+                "datePublished": new Date().toLocaleDateString()
+            },
+            {
+                "bookId": ObjectId("5ebe056d7ef5b96a0e646530"),
+                "copies": 60,
+                "datePublished": new Date().toLocaleDateString()
+            }
+        ]
+    }
+]
