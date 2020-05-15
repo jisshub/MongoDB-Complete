@@ -111,5 +111,232 @@ instead of person collection.
 this is one to one Relations sing reference.
 
 
+One to Many Relation - embedded
+-------------------------------
+
+one question has many answeres - one answer belongs to one question.
+
+> db.questions.findOne()
+{
+    "_id" : ObjectId("5eba0d45d1374e5a63d9814d"),
+    "creator" : "Max",
+    "question" : "How it Works?",
+    "answers" : [
+            {
+                    "text" : "answerOne"
+            },
+            {
+                    "text" : "answerTwo"
+            }
+    ]
+}
+
+so here there is one question that has many answers - which is a list of documents.
+
+now we can fetcg the answers from questions collection,
+
+> db.questions.findOne().answers
+[ { "text" : "answerOne" }, { "text" : "answerTwo" } ]
+> const a = db.questions.findOne().answers
+> a
+[ { "text" : "answerOne" }, { "text" : "answerTwo" } ]
+> a.forEach(r => printjson(r))
+{ "text" : "answerOne" }
+{ "text" : "answerTwo" }
+> a.forEach(r => printjson(r.text))
+"answerOne"
+"answerTwo"
+
+
+
+one to many using references
+-----------------------------
+
+one city has many citzens - one citizen belongs to one city
+
+> db.cities.findOne()
+{
+        "_id" : ObjectId("5eba1694d1374e5a63d9814f"),
+        "name" : "kochi",
+        "citizens" : [
+                {
+                        "id" : "citizen-1",
+                        "name" : "jissmon"
+                },
+                {
+                        "id" : "citizen-2",
+                        "name" : "akash"
+                }
+        ]
+}
+
+here v have to insert large no of citizens in 'citizens' embedded document.
+instead v create another collection for 'citizens' that contains citizens data only
+and set a reference to 'cities' collection ObjectId of each city.
+
+cities collection
+-------------
+> db.cities.findOne()
+{
+        "_id" : ObjectId("5eba183ed1374e5a63d98150"),
+        "name" : "kochi",
+        "cordinates" : {
+                "lat" : 45,
+                "lon" : 46
+        }
+}
+
+citizens collection
+-----------------------
+> db.citizens.find().pretty()
+{
+        "_id" : ObjectId("5eba1954d1374e5a63d98151"),
+        "name" : "jissmon",
+        "city" : ObjectId("5eba183ed1374e5a63d98150")
+}
+{
+        "_id" : ObjectId("5eba1954d1374e5a63d98152"),
+        "name" : "akhil",
+        "city" : ObjectId("5eba183ed1374e5a63d98150")
+}
+{
+        "_id" : ObjectId("5eba1954d1374e5a63d98153"),
+        "name" : "akash",
+        "city" : ObjectId("5eba183ed1374e5a63d98150")
+}
+
+
+here v set a reference to  cities collection by adding a city field with value as objectId of city.
+so by setting this reference, v can later access city of each citizen.
+
+
+Example
+--------
+> const cityId = db.citizens.findOne().city
+> db.cities.findOne({_id: cityId})
+{
+        "_id" : ObjectId("5eba183ed1374e5a63d98150"),
+        "name" : "kochi",
+        "cordinates" : {
+                "lat" : 45,
+                "lon" : 46
+        }
+}
+> db.cities.findOne({_id: cityId}).name
+kochi
+
+
+
+Many to Many - references
+-----------------------------
+
+one customer buys many porducts - one product belong to many customers
+
+> db.products.insertOne({name: 'product 1', price: 343})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("5eba1fc5d1374e5a63d98154")
+}
+> db.customers.insertOne({name: 'max', age: 33})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("5eba1fd7d1374e5a63d98155")
+}
+> db.orders.insertOne({customerId: ObjectId("5ebdf1a07ef5b96a0e646526"), productId: ObjectId("5ebdf17b7ef5b96a0e646525")})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("5eba207774852e4dc837c765")
+}
+
+here this is a sql approach. ie we create collection for
+porducts, customers, and orders .
+in mongodb, we can do this using just two collections,ie sing references approach
+
+Eg,
+
+products collection
+-----------------
+> db.products.find().pretty()
+{
+        "_id" : ObjectId("5ebdf17b7ef5b96a0e646525"),
+        "name" : "product-1",
+        "price" : 450
+}
+{
+        "_id" : ObjectId("5ebdf5217ef5b96a0e646528"),
+        "name" : "product-2",
+        "price" : 500
+}
+{
+        "_id" : ObjectId("5ebdf5217ef5b96a0e646529"),
+        "name" : "product-3",
+        "price" : 100
+}
+{
+        "_id" : ObjectId("5ebdf5217ef5b96a0e64652a"),
+        "name" : "product-4",
+        "price" : 50
+}
+
+customers collection
+-------------
+> db.customers.insertMany(
+... [
+...     {
+...         "customerName": "Akhil",
+...         "customerPhone": 4932749,
+...         "products": [{ 
+...             "Id": ObjectId("5ebdf5217ef5b96a0e64652a"),
+...             "quantity": 4},
+...             {
+...                 "Id": ObjectId("5ebdf5217ef5b96a0e646529"),
+
+...                 "quantity": 3
+...             }]
+...     },
+...     {
+...         "customerName": "Jithin",
+...         "customerPhone": 48236484,
+...         "products": [{ 
+...             "Id": ObjectId("5ebdf5217ef5b96a0e64652a"),
+...             "quantity": 4
+...         },
+...         {
+...             "Id": ObjectId("5ebdf5217ef5b96a0e646528"),
+...             "quantity": 1
+...         }]
+...     }
+... ])
+
+
+Many yo Many using embedded
+-----------------------------
+here v do the embedded ie wih in a single collection and no reference set to any other collection, ie here v ignore prodcts collections - instead added products data as in array of documents.
+
+> db.customers.find().pretty()
+{
+        "_id" : ObjectId("5ebdf9b17ef5b96a0e64652e"),
+        "customerName" : "Jithin",
+        "customerPhone" : 48236484,
+        "products" : [
+                {
+                        "productName" : "product-3",
+                        "productPrice" : 700,
+                        "quantity" : 3
+                },
+                {
+                        "productName" : "product-3",
+                        "productPrice" : 700,
+                        "quantity" : 3
+                }
+        ]
+}
+
+Main con of this approach is there is ahign probability of data duplication,
+
+since when multiple customers buy same product taht product data is repeated in those customers document.
+
+
+
 
 
