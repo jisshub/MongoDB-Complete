@@ -21,3 +21,55 @@ Eg:
 
 db.companies.insertOne({name: "New Age Sys", isStartUp: true, employees: 33, openVacancies: {developer: 3, test engineer: 2, trainees: 10}, clients: [{country: "usa", "companyName: "Tescon", type: "finance"}, {country: "iran", companyName: "Serin Sys", type: "manufacturer"}], funding: NumberInt(67453251), since: 1983, lastProject: new Date()}})
 
+One to One Relations
+-----------------------
+Eg; 
+
+    patients collection
+    ----------------------
+    db.patients.insertOne({name: "Max", age: 33, diseaseSummary:"summary-max-1"})
+
+    db.patients.insertOne({"_id": ObjectId("5eb8cb65a4a8c705c0393806")}, {$set: {diseaseSummary: "summary-jiss-1"}})
+
+
+    diseaseSummary collection
+    -----------------------------
+    > db.diseaseSummaries.insertOne({_id: "summary-max-1", disease: ['cold', 'fever']})
+
+    > db.diseaseSummaries.insertOne({_id: "summary-jiss-1", disease: "malaria"})
+
+
+to access the diseaseSummary of a patient,
+
+const getId = db.patients.findOne(({"_id": ObjectId("5eb8cb65a4a8c705c0393806")}).diseaseSummary
+
+lagter use this id to access disease of a patient from diseaseSummary collection,
+
+db.diseaseSummaries.findOne({"_id": getId}).disease
+
+
+so, here instead of creating multiplecollections
+
+create an embedded document of diseaseSummary in patients collection
+
+Eg:
+
+db.patients.insertMany([
+...     {"name": "Max",
+...      "age": 44,
+...     "diseaseSummaary": {
+...         "disease": ["cold", "fever"]
+...     }
+...     },
+...     {"name": "Max",
+...      "age": 44,
+...      "diseaseSummaary": {
+...     "disease": "Malaria"
+...     }
+... }
+... ])
+
+Now we can easily diseaseSummary,
+
+> db.patients.findOne({"_id": ObjectId("5eb8ce3c0b8a3c65144d4678")}).diseaseSummaary.disease
+[ "cold", "fever" ]
