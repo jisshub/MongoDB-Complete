@@ -276,7 +276,7 @@ products collection
         "_id" : ObjectId("5ebdf5217ef5b96a0e64652a"),
         "name" : "product-4",
         "price" : 50
-}
+}       
 
 customers collection
 -------------
@@ -338,5 +338,58 @@ since when multiple customers buy same product taht product data is repeated in 
 
 
 
+Eg: Many to Many reference 
+---------------------------
+Books collections
+----------------------
+> db.booksCol.find().pretty()
+{
+        "_id" : ObjectId("5ebe056d7ef5b96a0e64652f"),
+        "bookName" : "Book One",
+        "price" : 33
+}
+{
+        "_id" : ObjectId("5ebe056d7ef5b96a0e646530"),
+        "bookName" : "Book Two",
+        "price" : 70
+}
+
+Author collections
+---------------------
+> db.authorCol.find().pretty()
+{
+        "_id" : ObjectId("5ebe05fa7ef5b96a0e646531"),
+        "authorName" : "Author One",
+        "books" : [
+                {
+                        "bookId" : ObjectId("5ebe056d7ef5b96a0e64652f"),
+                        "copies" : 10,
+                        "datePublished" : "05/15/2020"
+                },
+                {
+                        "bookId" : ObjectId("5ebe056d7ef5b96a0e646530"),
+                        "copies" : 60,
+                        "datePublished" : "05/15/2020"
+                }
+        ]
+}
+
+
+
+
+Relations summary
+-----------
+embedded documents
+------------
+> group data togethr logically
+> ie just all data in one collection
+> good for one to one & one to many Relation
+
+References
+----------
+> split data across collections
+> ie, uses multiple collections
+> good 4 many to many Relation
+> greate approach to avoid data duplication.
 
 
