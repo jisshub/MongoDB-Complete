@@ -18,7 +18,7 @@
         "comments": [
             {
                 "_id": "comment-post-1",
-                "text": ["good post", "nice"]
+                "text": "good post"
             }
         ]
 
@@ -26,17 +26,31 @@
     {
         "postTitle": "Title Two",
         "postContent": "Content Two",
-        "datePosted": new Date("13/10/2018").toDateString(),
+        "datePosted": new Date("13/10/2018"),
         "user": ObjectId("5ebf4d6e9b7811d3bea82437"),
         "comments": [
             {
                 "_id": "comment-post-2",
-                "text": ["relevant information", "great"]
+                "text": "relevant information"
             }
         ]
     },
     {
         "postTitle": "Title Three",
+        "postContent": "Content Three",
+        "datePosted": new Date("25/10/2018").toDateString(),
+        "user": ObjectId("5ebf4d6e9b7811d3bea82438"),
+        "comments": [
+            {
+                "_id": "comment-post-3",
+                "text": ["great start", "not good"]
+            }
+        ]
+    },
+
+    {
+        "postTitle": "Title Three",
+        "tags": ["bad", "good"],
         "postContent": "Content Three",
         "datePosted": new Date("25/10/2018").toDateString(),
         "user": ObjectId("5ebf4d6e9b7811d3bea82438"),

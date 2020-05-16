@@ -1,0 +1,50 @@
+schema validation
+----------------
+
+mongodb collevtion sometimes follows a schema validation,
+and while insertioj/iupdation of data, ifc data doesnt satisfy
+the schema it either throws any error/warning.
+
+-> Validation Level
+    - strict
+    - moderate
+
+-> ValidationActin
+    - error
+    - warning
+
+
+
+> Validation is added before crearing a collevtion.
+so here v sue db.createCollecton() to first give a schema 
+for the following collection to be added.
+
+- pass collection name - gives a validator(jsonSchema) - define schema for every document - each doc should be an object type - required array takes must have fields in the document -
+properties embedded document contains more detaild schema for each field in collevtion.
+
+Syntax: 
+---------------
+db.createCollecton("collevtionName", { validator: {$jsonSchema: {bsonType: "object", required: ["field1", "field2", ..,"fieldN"],
+ properties: {
+        field1: {
+            bsonType: "type1",
+            description: "blah blah.. blah"
+        },
+        field2: {
+            bsonType: "type2",
+            description: "blah blah.. blah"
+        }
+    } 
+    }
+}
+})
+
+More:
+
+check 'validation.js'  file ehich contains schema validation.
+
+
+
+
+
+
