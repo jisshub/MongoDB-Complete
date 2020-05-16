@@ -1,0 +1,56 @@
+[
+    {
+        "UserName": "jissmon jo",
+        "UserEmail": "jiss@gmail.com"
+    },
+    {
+        "UserName": "jeron jo",
+        "UserEmail": "jerin@gmail.com"
+    }
+]
+
+[
+    {
+        "postTitle": "Title One",
+        "postContent": "Content One",
+        "datePosted": new Date("10/10/2018").toDateString(),
+        "user": ObjectId("5ebf4d6e9b7811d3bea82437"),
+        "comments": [
+            {
+                "_id": "comment-post-1",
+                "text": ["good post", "nice"]
+            }
+        ]
+
+    },
+    {
+        "postTitle": "Title Two",
+        "postContent": "Content Two",
+        "datePosted": new Date("13/10/2018").toDateString(),
+        "user": ObjectId("5ebf4d6e9b7811d3bea82437"),
+        "comments": [
+            {
+                "_id": "comment-post-2",
+                "text": ["relevant information", "great"]
+            }
+        ]
+    },
+    {
+        "postTitle": "Title Three",
+        "postContent": "Content Three",
+        "datePosted": new Date("25/10/2018").toDateString(),
+        "user": ObjectId("5ebf4d6e9b7811d3bea82438"),
+        "comments": [
+            {
+                "_id": "comment-post-3",
+                "text": ["great start", "not good"]
+            }
+        ]
+    }
+]
+
+
+
+
+
+

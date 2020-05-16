@@ -1,0 +1,84 @@
+BlogPost Relations
+
+------------------------
+
+> user      : _id, name, email
+> post      : _id, title, content, tags, date
+> comments  : _id, text
+
+
+One user -> Many post
+One post -> One user
+
+One Post -> Many comments
+one comment -> One Post
+
+Always heres exists a One-Many Relation.
+
+Two Collevtions
+1. User
+2. Post
+
+We can use embedded approach here.
+But will not embedd user in post Collection.
+since it causes data duplication - also if a user data need 
+to be changed - we have to change it all post where the same user is
+embedded into.
+
+Sample 
+------------
+
+User Collection
+----------------
+> db.UsersCol.find().pretty()
+{
+        "_id" : ObjectId("5ebf4d6e9b7811d3bea82437"),
+        "UserName" : "jissmon jo",
+        "UserEmail" : "jiss@gmail.com"
+}
+{
+        "_id" : ObjectId("5ebf4d6e9b7811d3bea82438"),
+        "UserName" : "jeron jo",
+        "UserEmail" : "jerin@gmail.com"
+}
+
+Post Collection
+-----------------
+
+> db.postsCol.find().pretty()
+{
+        "_id" : ObjectId("5ebf4ef29b7811d3bea82439"),
+        "postTitle" : "Title One",
+        "postContent" : "Content One",
+        "datePosted" : "Wed Oct 10 2018",
+        "user" : ObjectId("5ebf4d6e9b7811d3bea82437"),
+        "comments" : [
+                {
+                        "_id" : "comment-post-1",
+                        "text" : [
+                                "good post",
+                                "nice"
+                        ]
+                }
+        ]
+}
+{
+        "_id" : ObjectId("5ebf4ef29b7811d3bea8243a"),
+        "postTitle" : "Title Two",
+        "postContent" : "Content Two",
+        "datePosted" : "Thu Jan 10 2019",
+        "user" : ObjectId("5ebf4d6e9b7811d3bea82437"),
+        "comments" : [
+                {
+                        "_id" : "comment-post-2",
+                        "text" : [
+                                "relevant information",
+                                "great"
+                        ]
+                }
+        ]
+}
+
+
+
+

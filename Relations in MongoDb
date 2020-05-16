@@ -389,7 +389,7 @@ References
 ----------
 > split data across collections
 > ie, uses multiple collections
-> good 4 many to many Relation
+> good 4 many to many Relations
 > greate approach to avoid data duplication.
-
+s
 
